@@ -4,10 +4,8 @@ import { Separator } from "@/components/ui/separator";
 import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import alClubLogo from "@/assets/al-club-logo.png";
-
 const Footer = () => {
-  return (
-    <footer className="bg-secondary/20 border-t border-border">
+  return <footer className="bg-secondary/20 border-t border-border">
       <div className="container mx-auto px-4 py-16">
         {/* Newsletter Section */}
         <div className="text-center mb-16">
@@ -21,11 +19,7 @@ const Footer = () => {
             Get exclusive access to new courses, AI insights, and industry updates delivered to your inbox.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <Input 
-              type="email" 
-              placeholder="Enter your email address"
-              className="flex-1 bg-background border-border focus:border-teal-primary"
-            />
+            <Input type="email" placeholder="Enter your email address" className="flex-1 bg-background border-border focus:border-teal-primary" />
             <Button className="bg-gradient-to-r from-teal-primary to-teal-dark hover:from-teal-light hover:to-teal-primary">
               Subscribe
             </Button>
@@ -40,9 +34,7 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center space-x-3 mb-6">
               <img src={alClubLogo} alt="Al Club" className="h-8 w-8" />
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-teal-primary to-teal-light bg-clip-text text-transparent">
-                Al Club
-              </h3>
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-teal-primary to-teal-light bg-clip-text text-transparent">Learner AI</h3>
             </div>
             <p className="text-muted-foreground leading-relaxed">
               Empowering the next generation of AI creators through world-class education and practical training.
@@ -163,8 +155,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
