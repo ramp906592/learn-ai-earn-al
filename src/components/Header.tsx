@@ -1,10 +1,19 @@
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import alClubLogo from "@/assets/al-club-logo.png";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Menu, X, User, LogOut, Shield } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import alClubLogo from '@/assets/al-club-logo.png';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, isAdmin, signOut } = useAuth();
+  const navigate = useNavigate();
   return <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
@@ -30,14 +39,52 @@ const Header = () => {
             </Link>
           </nav>
 
-          {/* Auth Buttons - Desktop */}
+          {/* Auth Section - Desktop */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" className="text-foreground hover:text-teal-primary">
-              Login
-            </Button>
-            <Button className="bg-gradient-to-r from-teal-primary to-teal-dark hover:from-teal-light hover:to-teal-primary">
-              Sign Up
-            </Button>
+            {user ? (
+              <div className="flex items-center space-x-4">
+                {isAdmin && (
+                  <Button 
+                    variant="ghost" 
+                    className="text-foreground hover:text-teal-primary"
+                    onClick={() => navigate('/admin')}
+                  >
+                    <Shield className="w-4 h-4 mr-2" />
+                    Admin
+                  </Button>
+                )}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="text-foreground hover:text-teal-primary">
+                      <User className="w-4 h-4 mr-2" />
+                      Account
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => signOut()}>
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : (
+              <>
+                <Button 
+                  variant="ghost" 
+                  className="text-foreground hover:text-teal-primary"
+                  onClick={() => navigate('/auth')}
+                >
+                  Login
+                </Button>
+                <Button 
+                  className="bg-gradient-to-r from-teal-primary to-teal-dark hover:from-teal-light hover:to-teal-primary"
+                  onClick={() => navigate('/auth')}
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -62,12 +109,44 @@ const Header = () => {
                 Contact
               </Link>
               <div className="flex flex-col space-y-3 pt-4">
-                <Button variant="ghost" className="text-foreground hover:text-teal-primary">
-                  Login
-                </Button>
-                <Button className="bg-gradient-to-r from-teal-primary to-teal-dark hover:from-teal-light hover:to-teal-primary">
-                  Sign Up
-                </Button>
+                {user ? (
+                  <>
+                    {isAdmin && (
+                      <Button 
+                        variant="ghost" 
+                        className="text-foreground hover:text-teal-primary"
+                        onClick={() => navigate('/admin')}
+                      >
+                        <Shield className="w-4 h-4 mr-2" />
+                        Admin
+                      </Button>
+                    )}
+                    <Button 
+                      variant="ghost" 
+                      className="text-foreground hover:text-teal-primary"
+                      onClick={() => signOut()}
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button 
+                      variant="ghost" 
+                      className="text-foreground hover:text-teal-primary"
+                      onClick={() => navigate('/auth')}
+                    >
+                      Login
+                    </Button>
+                    <Button 
+                      className="bg-gradient-to-r from-teal-primary to-teal-dark hover:from-teal-light hover:to-teal-primary"
+                      onClick={() => navigate('/auth')}
+                    >
+                      Sign Up
+                    </Button>
+                  </>
+                )}
               </div>
             </nav>
           </div>}
